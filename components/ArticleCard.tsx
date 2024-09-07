@@ -8,32 +8,26 @@ import Link from 'next/link'
 
 interface Article {
   title: string
-  slug: string
+  url: string
 }
 
 interface ArticleCardProps {
   category: string
-  articles: (string | Article)[]
+  articles: Article[]
 }
 
 export default function ArticleCard({ category, articles }: ArticleCardProps) {
   const [copiedText, setCopiedText] = useState<string | null>(null)
 
-  const copyToClipboard = async (article: string | Article) => {
-    const title = typeof article === 'string' ? article : article.title
-    const slug = typeof article === 'string' 
-      ? article.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
-      : article.slug
-    const url = `https://help.gumroad.com/article/${slug}`
-
+  const copyToClipboard = async (article: Article) => {
     try {
       await navigator.clipboard.write([
         new ClipboardItem({
-          'text/plain': new Blob([title], { type: 'text/plain' }),
-          'text/html': new Blob([`<a href="${url}">${title}</a>`], { type: 'text/html' })
+          'text/plain': new Blob([article.title], { type: 'text/plain' }),
+          'text/html': new Blob([`<a href="${article.url}">${article.title}</a>`], { type: 'text/html' })
         })
       ])
-      setCopiedText(title)
+      setCopiedText(article.title)
       setTimeout(() => setCopiedText(null), 2000)
     } catch (err) {
       console.error('Failed to copy: ', err)
@@ -47,29 +41,21 @@ export default function ArticleCard({ category, articles }: ArticleCardProps) {
       </CardHeader>
       <CardContent>
         <ul className="space-y-2">
-          {articles.map((article, index) => {
-            const title = typeof article === 'string' ? article : article.title
-            const slug = typeof article === 'string' 
-              ? article.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
-              : article.slug
-            const url = `https://help.gumroad.com/article/${slug}`
-            
-            return (
-              <li key={index} className="flex items-center justify-between">
-                <Link href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                  {title}
-                </Link>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => copyToClipboard(article)}
-                >
-                  <ClipboardCopy className="h-4 w-4 mr-2" />
-                  {copiedText === title ? 'Copied!' : 'Copy'}
-                </Button>
-              </li>
-            )
-          })}
+          {articles.map((article, index) => (
+            <li key={index} className="flex items-center justify-between">
+              <Link href={article.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                {article.title}
+              </Link>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => copyToClipboard(article)}
+              >
+                <ClipboardCopy className="h-4 w-4 mr-2" />
+                {copiedText === article.title ? 'Copied!' : 'Copy'}
+              </Button>
+            </li>
+          ))}
         </ul>
       </CardContent>
     </Card>
