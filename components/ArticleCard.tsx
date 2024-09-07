@@ -37,7 +37,7 @@ export default function ArticleCard({ category, articles }: ArticleCardProps) {
   return (
     <Card className="w-full">
       <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium">{category}</CardTitle>
+        <CardTitle className="text-lg font-bold">{category}</CardTitle>
       </CardHeader>
       <CardContent>
         <ul className="space-y-2">
