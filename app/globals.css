@@ -90,3 +90,57 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .saved-reply-content {
+    @apply text-sm text-gray-700 leading-relaxed;
+  }
+
+  .saved-reply-content p {
+    @apply mb-4;
+  }
+
+  .saved-reply-content a {
+    @apply text-blue-600 hover:underline;
+  }
+
+  .saved-reply-content ul, .saved-reply-content ol {
+    @apply mb-4 pl-5;
+  }
+
+  .saved-reply-content ul {
+    @apply list-disc;
+  }
+
+  .saved-reply-content ol {
+    @apply list-decimal;
+  }
+
+  .saved-reply-content li {
+    @apply mb-2;
+  }
+
+  .saved-reply-content strong {
+    @apply font-semibold;
+  }
+
+  .saved-reply-content em {
+    @apply italic;
+  }
+
+  .saved-reply-content h1, .saved-reply-content h2, .saved-reply-content h3, .saved-reply-content h4, .saved-reply-content h5, .saved-reply-content h6 {
+    @apply font-bold mt-6 mb-4;
+  }
+
+  .saved-reply-content h1 {
+    @apply text-2xl;
+  }
+
+  .saved-reply-content h2 {
+    @apply text-xl;
+  }
+
+  .saved-reply-content h3 {
+    @apply text-lg;
+  }
+}

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { ClipboardCopy } from "lucide-react"
 import { SavedReply } from '@/app/types'
@@ -15,11 +15,28 @@ interface SavedRepliesProps {
 export default function SavedReplies({ savedReplies, searchTerm }: SavedRepliesProps) {
   const [copiedText, setCopiedText] = useState<string | null>(null)
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setCopiedText(text)
+  const copyToClipboard = async (html: string) => {
+    try {
+      // Create a temporary element to render the HTML
+      const tempElement = document.createElement('div');
+      tempElement.innerHTML = html;
+      
+      // Extract plain text
+      const plainText = tempElement.innerText;
+
+      // Use the Clipboard API to copy both plain text and HTML
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/plain': new Blob([plainText], { type: 'text/plain' }),
+          'text/html': new Blob([html], { type: 'text/html' })
+        })
+      ]);
+
+      setCopiedText(plainText)
       setTimeout(() => setCopiedText(null), 2000)
-    })
+    } catch (err) {
+      console.error('Failed to copy: ', err)
+    }
   }
 
   const filteredSavedReplies = useMemo(() => 
@@ -49,11 +66,14 @@ export default function SavedReplies({ savedReplies, searchTerm }: SavedRepliesP
                   }}
                 >
                   <ClipboardCopy className="h-4 w-4 mr-2" />
-                  {copiedText === reply.content ? 'Copied!' : 'Copy Text'}
+                  {copiedText === reply.content ? 'Copied!' : 'Copy'}
                 </Button>
               </div>
               <AccordionContent>
-                <p className="pt-2">{reply.content}</p>
+                <div 
+                  className="pt-2 saved-reply-content"
+                  dangerouslySetInnerHTML={{ __html: reply.content }}
+                />
               </AccordionContent>
             </AccordionItem>
           ))}
