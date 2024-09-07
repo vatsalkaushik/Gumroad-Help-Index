@@ -13,9 +13,9 @@ interface SavedRepliesProps {
 }
 
 export default function SavedReplies({ savedReplies, searchTerm }: SavedRepliesProps) {
-  const [copiedText, setCopiedText] = useState<string | null>(null)
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
 
-  const copyToClipboard = async (html: string) => {
+  const copyToClipboard = async (html: string, index: number) => {
     try {
       // Create a temporary element to render the HTML
       const tempElement = document.createElement('div');
@@ -32,8 +32,8 @@ export default function SavedReplies({ savedReplies, searchTerm }: SavedRepliesP
         })
       ]);
 
-      setCopiedText(plainText)
-      setTimeout(() => setCopiedText(null), 2000)
+      setCopiedIndex(index)
+      setTimeout(() => setCopiedIndex(null), 2000)
     } catch (err) {
       console.error('Failed to copy: ', err)
     }
@@ -54,7 +54,7 @@ export default function SavedReplies({ savedReplies, searchTerm }: SavedRepliesP
           {filteredSavedReplies.map((reply, index) => (
             <AccordionItem key={index} value={`reply-${index}`} className="border-b">
               <div className="flex items-center justify-between">
-                <AccordionTrigger className="hover:no-underline">
+                <AccordionTrigger className="hover:no-underline font-semibold">
                   {reply.title}
                 </AccordionTrigger>
                 <Button
@@ -62,11 +62,11 @@ export default function SavedReplies({ savedReplies, searchTerm }: SavedRepliesP
                   size="sm"
                   onClick={(e) => {
                     e.stopPropagation();
-                    copyToClipboard(reply.content);
+                    copyToClipboard(reply.content, index);
                   }}
                 >
                   <ClipboardCopy className="h-4 w-4 mr-2" />
-                  {copiedText === reply.content ? 'Copied!' : 'Copy'}
+                  {copiedIndex === index ? 'Copied!' : 'Copy'}
                 </Button>
               </div>
               <AccordionContent>
