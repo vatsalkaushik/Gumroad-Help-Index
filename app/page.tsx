@@ -18,7 +18,10 @@ export default function DocumentationPage() {
       <SectionRenderer title="Creator Help Center" categories={sellerHelp} searchTerm={searchTerm} />
       <SectionRenderer title="Customer Help Center" categories={customerHelp} searchTerm={searchTerm} />
       
-      <SavedReplies savedReplies={savedReplies} searchTerm={searchTerm} />
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-4">Saved Replies</h2>
+        <SavedReplies savedReplies={savedReplies} searchTerm={searchTerm} />
+      </div>
     </div>
   )
 }

@@ -32,10 +32,7 @@ export default function SavedReplies({ savedReplies, searchTerm }: SavedRepliesP
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Saved Replies</CardTitle>
-      </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <Accordion type="single" collapsible className="w-full space-y-2">
           {filteredSavedReplies.map((reply, index) => (
             <AccordionItem key={index} value={`reply-${index}`} className="border-b">
