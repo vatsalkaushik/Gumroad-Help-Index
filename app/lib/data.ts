@@ -50,6 +50,7 @@ export const sellerHelp = {
       { title: "Content protection on Gumroad", url: "https://help.gumroad.com/article/42-content-security.html" },
       { title: "Purchasing Power Parity", url: "https://help.gumroad.com/article/327-purchasing-power-parity.html" },
       { title: "Creating an Upsell", url: "https://help.gumroad.com/article/331-creating-upsells.html" },
+      { title: "Tipping", url: "https://help.gumroad.com/article/345-tipping.html" },
       { title: "More like this", url: "https://help.gumroad.com/article/334-more-like-this.html" },
       { title: "Set a custom refund policy", url: "https://help.gumroad.com/article/335-custom-refund-policy.html" },
       { title: "Product bundles", url: "https://help.gumroad.com/article/339-product-bundles.html" }
